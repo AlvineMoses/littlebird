@@ -27,20 +27,24 @@ const Demo = () => {
     debounce(async (e) => {
       e.preventDefault();
 
-      const existingArticle = allArticles.find(
-        (item) => item.url === article.url
-      );
-
-      if (existingArticle) return setArticle(existingArticle);
-
-      const { data } = await getSummary({ articleUrl: article.url });
-      if (data?.summary) {
-        const newArticle = { ...article, summary: data.summary };
-        const updatedAllArticles = [newArticle, ...allArticles];
-
-        setArticle(newArticle);
-        setAllArticles(updatedAllArticles);
-        updateLocalStorage(updatedAllArticles);
+      try{
+        const existingArticle = allArticles.find(
+          (item) => item.url === article.url
+        );
+  
+        if (existingArticle) return setArticle(existingArticle);
+  
+        const { data } = await getSummary({ articleUrl: article.url });
+        if (data?.summary) {
+          const newArticle = { ...article, summary: data.summary };
+          const updatedAllArticles = [newArticle, ...allArticles];
+  
+          setArticle(newArticle);
+          setAllArticles(updatedAllArticles);
+          updateLocalStorage(updatedAllArticles);
+        }
+      }catch(err){
+        console.log(err)
       }
     }, 300),
     [allArticles, getSummary, article.url]
