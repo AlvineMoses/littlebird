@@ -1,4 +1,4 @@
-// src/customHooks.js
+// src/customHooks.js lives here
 import { useState, useEffect } from "react";
 
 export const useLoadArticles = () => {
